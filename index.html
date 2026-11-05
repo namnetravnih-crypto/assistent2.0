@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ассистент — заполнение бланков</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Ассистент</h1>
+    <p>Заполняет бланки и анкеты по карте партнёра. Структура, шрифты и таблицы документа не меняются. Файлы обрабатываются в вашем браузере и никуда не отправляются.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card" id="step1">
+    <h2><span class="n">1</span> Карта партнёра / реквизиты</h2>
+    <div class="drop" id="dropCard" tabindex="0">
+      <b>Перетащите карту партнёра сюда</b> или нажмите, чтобы выбрать<br>
+      <small>.docx, .xlsx, .pdf (с текстовым слоем), .txt</small>
+      <input type="file" id="fileCard" accept=".docx,.xlsx,.pdf,.txt" hidden>
+    </div>
+    <details class="paste">
+      <summary>Или вставить текст реквизитов</summary>
+      <textarea id="pasteCard" rows="6" placeholder="Наименование: ООО «Ромашка»&#10;ИНН: 7701234567&#10;КПП: 770101001&#10;Генеральный директор: Иванов Иван Иванович&#10;..."></textarea>
+      <button class="btn small" id="btnParsePaste" type="button">Распознать</button>
+    </details>
+    <div id="cardStatus" class="status"></div>
+
+    <div id="cardForm" hidden>
+      <p class="hint">Проверьте распознанные данные и поправьте при необходимости. Пустое поле — в бланках это место будет выделено жёлтым.</p>
+      <div class="grid" id="cardGrid"></div>
+      <div class="row">
+        <button class="btn small ghost" id="btnClearCard" type="button">Очистить карту</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="step2">
+    <h2><span class="n">2</span> Бланки и формы для заполнения</h2>
+    <div class="drop" id="dropForms" tabindex="0">
+      <b>Перетащите все бланки сюда</b> или нажмите, чтобы выбрать<br>
+      <small>.docx и .xlsx — сколько угодно файлов сразу</small>
+      <input type="file" id="fileForms" accept=".docx,.dotx,.xlsx" multiple hidden>
+    </div>
+    <ul class="files" id="formList"></ul>
+  </section>
+
+  <section class="card" id="step3">
+    <h2><span class="n">3</span> Настройки</h2>
+    <label class="check"><input type="checkbox" id="optHighlight" checked> Выделять жёлтым поля, которые не удалось заполнить</label>
+    <label class="check"><input type="checkbox" id="optFallback" checked> Если почтовый/фактический адрес не указан — подставлять юридический</label>
+    <div class="row">
+      <label>Режим по умолчанию:
+        <select id="optMode">
+          <option value="full">Полное заполнение всех полей</option>
+          <option value="min">Минимум: наименование организации, ФИО и должность подписанта</option>
+        </select>
+      </label>
+      <label>Дата документа (необязательно):
+        <input type="date" id="optDate">
+      </label>
+    </div>
+    <p class="hint">Для каждого файла режим можно переопределить в списке выше.</p>
+    <button class="btn primary" id="btnRun" type="button" disabled>Заполнить</button>
+  </section>
+
+  <section class="card" id="resultCard" hidden>
+    <h2><span class="n">4</span> Результат</h2>
+    <ul class="files" id="resultList"></ul>
+    <button class="btn" id="btnZip" type="button">Скачать всё одним архивом (ZIP)</button>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  Ассистент работает локально: данные карты партнёра хранятся только в памяти браузера (localStorage) и удаляются кнопкой «Очистить карту».
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
