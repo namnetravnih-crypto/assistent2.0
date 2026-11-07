@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stamp Studio — АССИСТЕНТ творческое пространство</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&subset=cyrillic&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/stamp.css">
+</head>
+<body class="app">
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="mark">А</span><span><b>АССИСТЕНТ</b><small>творческое пространство</small></span></a>
+  <div class="crumbs"><a href="index.html">← Главная</a><span class="here">Stamp Studio</span><a href="docs.html">Автозаполнение →</a></div>
+  <span class="training">Тренировочный режим</span>
+</header>
+
+<!-- ВЕРХНЯЯ ПАНЕЛЬ ИНСТРУМЕНТОВ -->
+<div class="toolbar" role="toolbar" aria-label="Инструменты правки результата">
+  <div class="tb-group">
+    <span class="tb-label">Инструменты</span>
+    <div class="tb-col">
+      <button class="btn" id="btnMagicCursor" title="Уточнение края: внутри круга убирает фон и оставляет только плотный оттиск">🎯 Уточнение края</button>
+      <label class="tb-sub" id="tbEdgeSens"><span>Чувствительность</span><input type="range" id="paramEdgeSens" min="0" max="100" value="50" aria-label="Чувствительность уточнения края"><b id="valEdgeSens">50</b></label>
+    </div>
+    <button class="btn" id="btnEraser" title="Ластик: стирает всё под кругом">🧽 Ластик</button>
+    <button class="btn" id="btnRestore" title="Вернуть: восстанавливает то, что убрала очистка">🖌️ Вернуть</button>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tb-group">
+    <div class="tb-col">
+      <label class="tb-check" id="tbRemoveText" title="Подходит для цветного оттиска: тёмные надписи вокруг исчезнут. Для чёрного или серого оттиска не включайте."><input type="checkbox" id="removeTextCheck"><span>Убрать чёрный и серый текст</span></label>
+      <label class="tb-sub" id="tbTextPower"><span>Сила лишнего текста</span><input type="range" id="paramText" min="0" max="100" value="50" aria-label="Сила лишнего текста"><b id="valText">50</b></label>
+      <button class="btn" id="btnTextMask" title="Маска: возвращает чёрный и серый текст только в месте нажатия">🎭 Маска</button>
+    </div>
+    <button class="btn" id="btnMakeRound" title="Если оттиск на фото получился овальным или повёрнутым — программа выровняет его в круг">⭕ Сделать оттиск круглым</button>
+    <button class="btn" id="btnZone" title="Показать лист целиком и вручную выбрать, где искать печать">🔲 Рабочая зона</button>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tb-size"><span>Размер <small>(колесо мыши)</small></span><input type="range" id="brushSize" min="5" max="180" value="60" aria-label="Размер кисти"><b id="valBrushSize">60 px</b></div>
+  <div class="tb-sep"></div>
+  <div class="tb-group"><button class="btn" id="btnUndo" title="Отменить последнее действие (Ctrl+Z)">↩️ Отмена</button></div>
+  <div class="tb-hint" id="toolHint">Выберите инструмент, затем проведите по <b>правому</b> изображению (результату).</div>
+</div>
+
+<div class="main-container">
+  <aside class="sidebar">
+    <!-- Шаг 1 -->
+    <section class="step">
+      <div class="step-head"><span class="step-n">1</span><span class="step-title">Загрузите файл</span></div>
+      <div class="upload-wrapper">
+        <label class="upload-label" id="uploadLabel"><span>📁 Выбрать фото, скан или PDF</span>
+          <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf"></label>
+      </div>
+      <div class="hint">Можно перетащить файл прямо на рабочее поле.</div>
+    </section>
+
+    <!-- Шаг 2 -->
+    <section class="step">
+      <div class="step-head"><span class="step-n">2</span><span class="step-title">Автоочистка</span><span class="step-tag">сама</span></div>
+      <div class="auto-info" id="autoInfo">После загрузки программа сама находит оттиск и убирает фон, блики, тени и лишний текст.</div>
+      <button class="btn" id="btnAuto" style="width:100%">✨ Очистить заново</button>
+      <div class="hint">Кнопки «Сделать оттиск круглым», «Рабочая зона» и галочка «Убрать чёрный и серый текст» — на верхней панели.</div>
+    </section>
+
+    <!-- Шаг 3 -->
+    <section class="step">
+      <div class="step-head"><span class="step-n">3</span><span class="step-title">Доводка вручную</span></div>
+      <div class="hint" style="margin-top:0">Используйте кнопки <b>на верхней панели</b>: «Уточнение края», «Ластик», «Вернуть», «Маска» (когда включено «Убрать чёрный и серый текст»), «Отмена»; размер круга меняется <b>колесом мыши</b>. Нужен более тонкий подбор — раскройте «Тонкую настройку» ниже.</div>
+    </section>
+
+    <details class="manual" id="manualBox">
+      <summary>⚙️ Тонкая настройка</summary>
+      <div class="manual-body">
+        <div class="panel-section">
+          <div class="panel-section-title">Поиск оттиска</div>
+          <div class="control-group"><label class="checkbox-label"><input type="checkbox" id="autoCropCheck" checked><span>Автоматически находить и вырезать оттиск</span></label></div>
+          <div class="control-group"><label class="checkbox-label"><input type="checkbox" id="autoRoundCheck"><span>Автоматически выравнивать перекошенный оттиск</span></label></div>
+          <div class="control-group"><label class="checkbox-label"><input type="checkbox" id="clipCheck" checked><span>Оставлять только область оттиска</span></label></div>
+          <div class="hint">Отключите первый и третий пункты, если оттиск не круглый. Выравнивание перекошенного оттиска по умолчанию выключено: включите его, если оттиск сфотографирован под углом, или нажмите «Сделать оттиск круглым» на верхней панели.</div>
+        </div>
+        <div class="panel-section">
+          <div class="panel-section-title">Фон и чёткость</div>
+          <div class="control-group"><label><span>Что считать фоном (порог)</span><span id="val1">40</span></label><input type="range" id="paramBrightness" min="0" max="100" value="40"></div>
+          <div class="control-group"><label><span>Чувствительность к цвету</span><span id="val2">35</span></label><input type="range" id="paramChroma" min="0" max="100" value="35"></div>
+          <div class="control-group"><label><span>Убрать блики и тени</span><span id="val3">85</span></label><input type="range" id="paramShadows" min="0" max="100" value="85"></div>
+          <div class="control-group"><label><span>Сглаживание краёв</span><span id="val4">0</span></label><input type="range" id="paramSmoothing" min="0" max="10" value="0"></div>
+          <div class="hint">Больше порог — меньше мусора, но бледные линии могут пропасть. Бледные цветные линии помогает сохранить «чувствительность к цвету».</div>
+        </div>
+        <div class="panel-section">
+          <div class="panel-section-title">Убрать цвет</div>
+          <div class="sub-title">Быстрый выбор</div>
+          <div class="chips" id="presetChips">
+            <button class="chip" data-preset="black">Чёрный</button><button class="chip" data-preset="gray">Серый</button>
+            <button class="chip" data-preset="red">Красный</button><button class="chip" data-preset="orange">Жёлто-оранжевый</button>
+            <button class="chip" data-preset="green">Зелёный</button><button class="chip" data-preset="cyan">Голубой</button>
+            <button class="chip" data-preset="blue">Синий</button><button class="chip" data-preset="violet">Фиолетовый</button>
+          </div>
+          <div class="sub-title">Точный выбор</div>
+          <button class="btn" id="btnPick" style="width:100%;margin-bottom:10px">💧 Пипетка — указать цвет на картинке</button>
+          <div class="control-group"><label><span>Допуск оттенка</span><span id="valPick">25</span></label><input type="range" id="paramPick" min="5" max="70" value="25"></div>
+          <div class="chips" id="pickChips"></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Шаг 5 -->
+    <section class="step">
+      <div class="step-head"><span class="step-n">4</span><span class="step-title">Сохраните результат</span></div>
+      <div class="dl-row"><button class="btn-main" id="btnDownload">⬇️ Скачать PNG (40 мм)</button>
+      <button class="btn-main alt" id="btnAddToFile">📎 Добавить в файл</button></div>
+      <button class="btn" id="btnReset" style="width:100%;margin-top:8px">🗑️ Сбросить всё</button>
+      <div class="mem" id="memBox">
+        <div class="mem-head"><b>Печати в памяти</b><span id="memCount">0 из 4</span></div>
+        <div class="mem-list" id="memList"></div>
+        <div class="hint" id="memHint">Нажмите «Добавить в файл» — печать встанет в память. В памяти помещается до четырёх печатей, каждая хранится 30 минут или до скачивания файла, на который её поставили.</div>
+        <button class="btn small ghost" id="memClear" type="button" style="width:100%;margin-top:8px" hidden>Забыть все печати</button>
+      </div>
+    </section>
+
+    <div class="legal">Учебная программа для макетов и тренировки. Используйте только собственные или вымышленные изображения, а также те, которые вам разрешено использовать. Не предназначена для подделки документов.</div>
+  </aside>
+
+  <main class="workspace">
+    <div class="drop-zone-box" id="dropZone">
+      <h2>Перетащите файл сюда</h2>
+      <p>Фото, скан или PDF. Либо нажмите на это поле.</p>
+      <div class="howto">
+        <div><i>1</i><span>Загрузите файл — оттиск очистится сам.</span></div>
+        <div><i>2</i><span>При необходимости поработайте с подписью.</span></div>
+        <div><i>3</i><span>Доведите результат инструментами сверху и скачайте PNG.</span></div>
+      </div>
+    </div>
+    <div class="panes" id="panes">
+      <figure class="pane">
+        <figcaption><span>Исходный вид</span></figcaption>
+        <div class="canvas-container src-view" id="origContainer"><canvas id="origCanvas"></canvas><div id="brushCursor2"></div></div>
+      </figure>
+      <figure class="pane">
+        <figcaption><span>Результат</span>
+          <span class="bgswitch" id="bgSwitch"><button data-bg="checker" class="on">Шашечка</button><button data-bg="white">Белый</button><button data-bg="dark">Тёмный</button></span>
+        </figcaption>
+        <div class="canvas-container bg-checker" id="canvasContainer"><canvas id="mainCanvas"></canvas><div id="brushCursor"></div></div>
+      </figure>
+    </div>
+    <div class="zone-panel" id="zonePanel" hidden>
+      <div class="zone-head">
+        <b>Рабочая зона на листе</b>
+        <span class="zone-hint">Тяните рамку мышью, за углы меняйте размер, <b>колесом мыши</b> — масштаб рамки. Программа ищет печать только внутри рамки.</span>
+        <button class="btn primary small" id="zoneApply" type="button">✔ Применить</button>
+        <button class="btn small" id="zoneAuto" type="button">✨ Найти автоматически</button>
+        <button class="btn small ghost" id="zoneClose" type="button">Закрыть</button>
+      </div>
+      <div class="zone-stage" id="zoneStage"><div class="zone-wrap" id="zoneWrap"><canvas id="zoneCanvas"></canvas><div class="zone-rect" id="zoneRect"><i data-h="nw"></i><i data-h="ne"></i><i data-h="sw"></i><i data-h="se"></i></div></div></div>
+    </div>
+    <nav class="page-bar" id="pageBar" hidden aria-label="Страницы файла"><span class="pb-label">Страница, на которой искать печать:</span><span class="pb-btns" id="pageBtns"></span></nav>
+  </main>
+</div>
+
+<div class="status-bar" id="statusBar"><span>Готов к работе</span><span id="fileName"></span></div>
+<script src="assets/js/zoom.js"></script>
+<script src="assets/js/cache.js"></script>
+<script src="assets/js/stamp.js"></script>
+<script src="assets/js/tips.js"></script>
+</body>
+</html>

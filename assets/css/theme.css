@@ -1,0 +1,53 @@
+/* АССИСТЕНТ · творческое пространство — светлая тема: слоновая кость, глубокий синий, золото */
+:root{
+  color-scheme:light;
+  --bg:#faf7f1; --bg-2:#f3eee3; --panel:#ffffff; --panel-2:#fcfaf5; --panel-3:#f1ece0;
+  --line:#e3dccb; --line-2:#cfc6b0;
+  --text:#1c2333; --muted:#4d586c; --faint:#6b7589;
+  --navy:#1f2a44; --navy-2:#2c3b61;
+  --gold:#a67c2e; --gold-2:#7d5c1b; --gold-d:#c9a45c; --gold-bg:rgba(201,164,92,.16);
+  --ok:#1d7351; --warn:#8a6410; --err:#b0382c;
+  --serif:'Cormorant Garamond','Playfair Display',Georgia,'Times New Roman',serif;
+  --sans:'Inter','Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --r:10px;
+  --shadow:0 1px 2px rgba(31,42,68,.06),0 8px 28px rgba(31,42,68,.08);
+  --z:.8; /* масштаб всего сайта: 80 % от прежнего размера */
+}
+html{zoom:var(--z);background:var(--bg);min-height:100%}
+@supports not (zoom:1){:root{--z:1}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:light}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--navy-2);text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold-d);outline-offset:2px}
+
+/* шапка */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 32px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(166,124,46,.25)}
+.brand{display:flex;align-items:center;gap:14px;color:var(--text)}
+.brand .mark{width:42px;height:42px;border:1.5px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:25px;color:var(--gold-2);font-weight:700;background:var(--panel-2)}
+.brand b{font-family:var(--serif);font-size:27px;letter-spacing:.1em;font-weight:700;color:var(--navy);line-height:1.1;display:block}
+.brand small{display:block;font-size:13px;letter-spacing:.14em;text-transform:lowercase;color:var(--gold-2);margin-top:1px;font-weight:500}
+.crumbs{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--muted);flex-wrap:wrap}
+.crumbs a{color:var(--navy);border:1px solid var(--line-2);padding:8px 16px;border-radius:999px;transition:.15s;background:#fff}
+.crumbs a:hover{border-color:var(--gold);background:var(--gold-bg)}
+.crumbs .here{color:var(--gold-2);font-weight:600;letter-spacing:.02em}
+.training{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);border:1px solid var(--gold-d);padding:5px 14px;border-radius:999px;background:var(--gold-bg);font-weight:600}
+
+/* кнопки */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#fff;border:1.5px solid var(--line-2);color:var(--navy);padding:11px 18px;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:16px;transition:.15s;white-space:nowrap;box-shadow:0 1px 2px rgba(31,42,68,.05)}
+.btn:hover{border-color:var(--gold);background:var(--gold-bg)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary,.btn-main{background:linear-gradient(180deg,var(--navy-2),var(--navy));border:1.5px solid var(--navy);color:#fff;font-weight:700;letter-spacing:.01em;box-shadow:0 4px 14px rgba(31,42,68,.22)}
+.btn.primary:hover,.btn-main:hover{background:linear-gradient(180deg,#38497a,var(--navy-2));border-color:var(--navy-2)}
+.btn-main{display:flex;width:100%;padding:15px;border-radius:var(--r);cursor:pointer;font-size:17px;justify-content:center}
+.btn.ghost{background:transparent;box-shadow:none}
+.btn.small{padding:8px 14px;font-size:15px}
+.tool-active{border-color:var(--gold)!important;background:var(--gold-bg)!important;color:var(--gold-2)!important;box-shadow:inset 0 0 0 1px var(--gold-d)!important}
+
+.hint{font-size:15px;color:var(--muted);line-height:1.55}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* всплывающие памятки */
+.tip-pop{position:fixed;z-index:9999;background:#fffdf7;color:var(--text);border:1.5px solid var(--gold);border-radius:10px;padding:12px 16px;font-size:15.5px;line-height:1.5;box-shadow:0 12px 32px rgba(31,42,68,.35);pointer-events:none;font-weight:500}
+.tip-pop[hidden]{display:none}

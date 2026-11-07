@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Автозаполнение документов — АССИСТЕНТ творческое пространство</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&subset=cyrillic&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/docs.css">
+<link rel="stylesheet" href="assets/css/overlay.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="mark">А</span><span><b>АССИСТЕНТ</b><small>творческое пространство</small></span></a>
+  <div class="crumbs"><a href="index.html">← Главная</a><a href="stamp.html">Stamp Studio</a><span class="here">Автозаполнение</span></div>
+  <span class="training">Тренировочный режим</span>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <h1>Автозаполнение документов</h1>
+    <p>Выберите, с каким документом работаете. Нажмите на блок — он раскроется. Структура, шрифты и таблицы документов не меняются; то, что программа не смогла заполнить, подсвечивается жёлтым. Файлы обрабатываются в вашем браузере и никуда не отправляются.</p>
+  </div>
+
+  <section class="lib-panel" id="libPanel">
+    <button class="lib-toggle" type="button" aria-expanded="false" data-tip="Ваши сохранённые заказчики, работодатели, работники, подрядчики, участники и свои бланки. Хранится только в этом браузере."><span class="lib-ico">📚</span><span class="blk-t"><b>Моя библиотека</b><small id="libSummary">Сохранённые стороны и бланки — всегда под рукой</small></span><span class="blk-arrow">▾</span></button>
+    <div class="lib-body" hidden></div>
+  </section>
+
+  <div class="blocks" id="blocks">
+    <section class="blk" id="blk-labor" data-block="labor">
+      <button class="blk-head" type="button" aria-expanded="false" data-tip="Трудовой договор: введите или загрузите реквизиты работодателя и работника, затем загрузите бланк договора.">
+        <span class="blk-n">1</span><span class="blk-t"><b>Трудовой договор</b><small>Реквизиты работодателя и работника — вручную или из файла PDF / Word</small></span><span class="blk-arrow">▾</span></button>
+      <div class="blk-body" hidden></div>
+    </section>
+    <section class="blk" id="blk-forms" data-block="forms">
+      <button class="blk-head" type="button" aria-expanded="false" data-tip="Заявки, анкеты, договоры и спецификации: заполняются по реквизитам Заказчика и Исполнителя.">
+        <span class="blk-n">2</span><span class="blk-t"><b>Формы и договоры</b><small>Заявки, анкеты, договоры, спецификации по реквизитам Заказчика и Исполнителя</small></span><span class="blk-arrow">▾</span></button>
+      <div class="blk-body" hidden></div>
+    </section>
+    <section class="blk" id="blk-tech" data-block="tech">
+      <button class="blk-head" type="button" aria-expanded="false" data-tip="Загрузите техническое задание и бланк предложения: «не менее», «не более» и другие формулировки заменятся на конкретные значения.">
+        <span class="blk-n">3</span><span class="blk-t"><b>Техническое предложение</b><small>ТЗ + бланк предложения: показатели заменяются на конкретные значения</small></span><span class="blk-arrow">▾</span></button>
+      <div class="blk-body" hidden></div>
+    </section>
+    <section class="blk" id="blk-ks" data-block="ks">
+      <button class="blk-head" type="button" aria-expanded="false" data-tip="КС-2 и КС-3 в Excel: подставляются реквизиты Заказчика (Генподрядчика), Подрядчика (Субподрядчика) и подписантов.">
+        <span class="blk-n">4</span><span class="blk-t"><b>КС-2, КС-3</b><small>Реквизиты сторон и подписанты в актах и справках формата Excel</small></span><span class="blk-arrow">▾</span></button>
+      <div class="blk-body" hidden></div>
+    </section>
+    <section class="blk" id="blk-own" data-block="own">
+      <button class="blk-head" type="button" aria-expanded="false" data-tip="Загрузите любой свой документ Word или Excel и поставьте на него печати из Stamp Studio.">
+        <span class="blk-n">5</span><span class="blk-t"><b>Свой файл</b><small>Любой ваш документ Word или Excel — и печати поверх него</small></span><span class="blk-arrow">▾</span></button>
+      <div class="blk-body" hidden></div>
+    </section>
+  </div>
+
+  <footer class="foot">Учебная программа для тренировки и подготовки макетов документов. Реквизиты хранятся только в памяти этого браузера (localStorage). Используйте данные, которые вам разрешено использовать. Правила заполнения эвристические — результат всегда проверяйте глазами.</footer>
+</main>
+
+<script src="assets/vendor/jszip.min.js"></script>
+<script src="assets/vendor/docx-preview.min.js"></script>
+<script src="assets/vendor/html2canvas.min.js"></script>
+<script src="assets/vendor/pdf-lib.min.js"></script>
+<script src="assets/vendor/pdfjs/pdf.min.js"></script>
+<script src="assets/vendor/cfb.min.js"></script>
+<script src="assets/js/xls.js"></script>
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/tech.js"></script>
+<script src="assets/js/labor.js"></script>
+<script src="assets/js/templates.js"></script>
+<script src="assets/js/library.js"></script>
+<script src="assets/js/zoom.js"></script>
+<script src="assets/js/cache.js"></script>
+<script src="assets/js/overlay.js"></script>
+<script src="assets/js/docs.js"></script>
+<script src="assets/js/tips.js"></script>
+</body>
+</html>
